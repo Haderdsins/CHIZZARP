@@ -1,35 +1,63 @@
 <!doctype html>
 <html lang="en">
-
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Fullscreen Video</title>
+
+  <!-- Добавление иконки (favicon) -->
+  <link rel="icon" href="Pictures/7606205.png" type="image/x-icon">
+
+  <!-- Изменение названия шапки сайта -->
+  <title>CHIZZARP</title>
+
   <style>
-    /* Сброс базовых стилей */
     body, html {
       margin: 0;
       padding: 0;
+      height: 100%;
+      background-color: black;
+      display: flex;
+      justify-content: center;
+      align-items: center;
       overflow: hidden;
     }
-
-    /* Видео на весь экран */
-    video {
+    img {
       position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
+      transition: transform 0.1s ease-out, filter 0.1s ease-out;
+      max-width: 1000px;
+      max-height: 1000px;
     }
   </style>
 </head>
-
 <body>
-<video autoplay muted loop>
-  <source src="video/CHIZZARP_AUTUMN.mp4" type="video/mp4">
-  Your browser does not support the video tag.
-</video>
-</body>
+<img src="Pictures/white.png" alt="Test Image" id="testImage">
 
+<script>
+  const img = document.getElementById("testImage");
+
+  // Отслеживаем движение мыши
+  document.addEventListener("mousemove", (e) => {
+    // Получаем координаты мыши
+    const mouseX = e.clientX;
+    const mouseY = e.clientY;
+
+    // Расстояние от центра экрана
+    const centerX = window.innerWidth / 2;
+    const centerY = window.innerHeight / 2;
+
+    // Вычисляем смещение мыши от центра экрана
+    const deltaX = mouseX - centerX;
+    const deltaY = mouseY - centerY;
+
+    // Применяем трансформации к изображению в зависимости от положения курсора
+    const rotateX = deltaY / 10;  // Угол поворота по оси X
+    const rotateY = -deltaX / 10; // Угол поворота по оси Y
+    const scale = 1 + Math.min(Math.sqrt(deltaX * deltaX + deltaY * deltaY) / 500, 0.3); // Масштаб
+
+    // Применяем стиль к изображению
+    img.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(${scale})`;
+    img.style.filter = `brightness(${100 + scale * 100}%)`; // Яркость в зависимости от масштаба
+  });
+</script>
+</body>
 </html>
